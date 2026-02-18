@@ -65,7 +65,7 @@ These two projects share the same chassis and L298N motor driver: one adds Bluet
 The setup is mounted on a yellow robot chassis with breadboard prototyping.
 
 **Real-life prototype photos** (messy wires, but it works perfectly!): <br>
-![Prototype Overview - Chassis & Wiring](circuit-overview.JPEG)  
+![Prototype Overview - Chassis & Wiring](circut-overview.JPEG)  
 ![Arduino & Breadboard Closeup](arduino-breadboard-closeup.JPEG)  
 ![Full Chassis with Motors & Components](full-chassis-wiring.JPEG)
 
