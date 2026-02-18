@@ -1,89 +1,86 @@
 # Arduino Robotics Projects
 
-Hands-on embedded systems and robotics experiments using Arduino. Focused on building functional prototypes with sensors, motors, and wireless control — great foundation for Mechatronics (sensor-actuator integration, real-time decision making, motor control).
+Hands-on embedded systems and robotics experiments using Arduino. Focused on building functional prototypes with sensors, motors, and wireless control.
+
+These two projects share the same chassis and L298N motor driver: one adds Bluetooth for manual control, the other ultrasonic sensing for autonomous obstacle avoidance with RGB LED and buzzer feedback.
 
 ## Projects Included
 
 ### 1. Bluetooth-Controlled Car
-**Description**: 4-wheel robot car controlled wirelessly via Bluetooth from a smartphone app (e.g., Arduino Bluetooth Controller). Uses HC-06 module + L298N driver for direction and speed.
+**Description**: 4-wheel robot car controlled wirelessly via Bluetooth from a smartphone app (Arduino Bluetooth Controller). Uses HC-06 module + L298N driver for direction and speed.
 
 **Features**:
 - Forward/backward, left/right turning
-- Variable speed control via PWM
 
 **Hardware**:
-- Arduino Nano (or Uno)
+- Arduino Nano
 - L298N motor driver
 - 4 DC motors + chassis
 - HC-06 Bluetooth module
 - Li-ion battery pack
 
 **Pin Connections**:
-| Component       | Pin(s)              | Arduino Pin |
-|-----------------|---------------------|-------------|
-| L298N IN1       | Motor direction     | 4           |
-| L298N IN2       | Motor direction     | 5           |
-| L298N IN3       | Motor direction     | 6           |
-| L298N IN4       | Motor direction     | 7           |
-| L298N ENA       | PWM speed left      | 3           |
-| L298N ENB       | PWM speed right     | 9           |
-| HC-06 TX        | Serial RX           | RX (or 0)   |
-| HC-06 RX        | Serial TX           | TX (or 1)   |
+| Component       | Arduino Pin |
+|-----------------|-------------|
+| L298N IN1       | 4           |
+| L298N IN2       | 5           |
+| L298N IN3       | 6           |
+| L298N IN4       | 7           |
+| L298N ENA (PWM) | 3           |
+| L298N ENB (PWM) | 9           |
+| HC-06 TX/RX     | Serial (RX/TX) |
 
 **Code**: `car_bluetooth.ino` — Reads serial commands (e.g., 'F' for forward) and maps to motor pins.
 
-**Demo Video**:
-<video src="Bluetooth%20Car%20Driver.MOV" controls width="600"></video>
+**Demo**: [Bluetooth Car Driver.MOV](Bluetooth%20Car%20Driver.MOV)
 
 ### 2. Ultrasonic Obstacle-Avoiding Car
-**Description**: Autonomous robot that measures distance with HC-SR04 ultrasonic sensor, stops/turns when obstacle < 20 cm, and provides feedback with RGB LED (green = clear, red = obstacle) + buzzer.
+**Description**: Autonomous robot using HC-SR04 to detect obstacles (<20 cm) and avoid by turning. Includes RGB LED (green = clear, red = obstacle) + buzzer alert.
 
 **Features**:
 - Continuous distance measurement
-- Avoidance logic (stop + turn)
-- Visual (RGB) and audio (buzzer) alerts
+- Stop/turn logic
+- Visual (RGB) and audio (buzzer) feedback
 
 **Hardware**:
 - Same chassis/motors/L298N as above
 - HC-SR04 ultrasonic sensor
-- Common-anode RGB LED
+- Common-cathode RGB LED
 - Active buzzer
 
 **Pin Connections**:
-| Component       | Pin(s)              | Arduino Pin |
-|-----------------|---------------------|-------------|
-| HC-SR04 Trig    | Trigger pulse       | 11          |
-| HC-SR04 Echo    | Echo pulse          | 10          |
-| RGB Red         | Red channel         | 8           |
-| RGB Green       | Green channel       | 12          |
-| Buzzer          | Positive            | 2           |
+| Component       | Arduino Pin |
+|-----------------|-------------|
+| HC-SR04 Trig    | 11          |
+| HC-SR04 Echo    | 10          |
+| RGB Red         | 8           |
+| RGB Green       | 12          |
+| Buzzer          | 2           |
 
-**Code**: `car_ultrasonic.ino` — Uses pulseIn() or NewPing for distance, simple if-else for avoidance + LED/buzzer control.
+**Code**: `car_ultrasonic.ino` — Uses pulseIn() for distance, if-else avoidance + LED/buzzer control.
 
-**Demo Video**:
-<video src="UltrasonicCar.MOV" controls width="600"></video>
+**Demo**: [Ultrasonic Car.MOV](UltrasonicCar.MOV)
 
-## Circuit Overview
-The two projects share the same base chassis and L298N driver for motors. Bluetooth car focuses on wireless input; ultrasonic adds sensor + feedback.
+## Circuit Overview & Real Photos
+The setup is mounted on a yellow robot chassis with breadboard prototyping.
 
-**Real-life prototype photo** (messy but functional!):  
-![Real Circuit Photo](IMG_9605.JPEG)  <!-- Replace with your actual filename once uploaded -->
-
-For clean schematics, similar setups are common (e.g., L298N + HC-SR04 + Bluetooth on breadboard or PCB). You can recreate this in free Fritzing software if desired.
+**Real-life prototype photos** (messy wires, but it works perfectly!): <br>
+![Prototype Overview - Chassis & Wiring](circuit-overview.jpg)  
+![Arduino & Breadboard Closeup](arduino-breadboard-closeup.jpg)  
+![Full Chassis with Motors & Components](full-chassis-wiring.jpg)
 
 ## How to Run / Replicate
 1. Install Arduino IDE and upload the .ino file to your board.
-2. Wire components exactly as per the pin tables above (double-check polarity for motors/LED/buzzer!).
+2. Wire components exactly as per the pin tables (double-check polarity for motors, RGB, buzzer!).
 3. Power with stable 7–12V source (Li-ion or 9V).
-4. For Bluetooth: Pair HC-06 with phone (default password usually 1234 or 0000), use app to send commands.
-5. Test ultrasonic separately first to calibrate distance threshold.
+4. For Bluetooth: Pair HC-06 with phone (default password usually 1234 or 0000), use app to send commands (F=forward, B=backward, L=left, R=right, S=stop).
 
 ## What I Learned & Challenges Overcome
-- Reliable serial parsing for Bluetooth commands (handling noise/delays).
-- Ultrasonic sensor timing and filtering false readings (e.g., using average or timeout).
-- Integrating multiple actuators (motors + RGB + buzzer) without blocking code.
-- Hardware debugging: Loose wires, power drops, pin conflicts — improved my practical troubleshooting skills for real Mechatronics systems.
+- Reliable serial parsing for Bluetooth commands (handling delays/noise).
+- Ultrasonic sensor timing and filtering false readings.
+- Integrating multiple actuators (motors + RGB + buzzer) without code blocking.
+- Hardware debugging: Loose wires, power issues, pin conflicts.
 
-These projects sparked my interest in autonomous robots and sensor fusion — excited to build more complex versions!
+These projects sparked my interest in robots and sensor fusion — excited to scale up to more complex systems!
 
 Happy building! Questions or improvements? Fork or reach out 🤖
